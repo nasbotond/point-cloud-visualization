@@ -1,0 +1,90 @@
+#pragma once
+
+// C++ includes
+#include <memory>
+#include <array>
+
+// GLEW
+#include <GL/glew.h>
+
+// SDL
+#include <SDL.h>
+#include <SDL_opengl.h>
+
+// GLM
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform2.hpp>
+
+#include "includes/gCamera.h"
+#include "includes/ProgramObject.h"
+#include "includes/BufferObject.h"
+#include "includes/VertexArrayObject.h"
+#include "includes/TextureObject.h"
+
+// mesh
+#include "includes/ObjParser_OGL3.h"
+
+class CMyApp
+{
+public:
+	CMyApp(void);
+	~CMyApp(void);
+
+	bool Init();
+	void Clean();
+
+	void Update();
+	void Render();
+
+	void KeyboardDown(SDL_KeyboardEvent&);
+	void KeyboardUp(SDL_KeyboardEvent&);
+	void MouseMove(SDL_MouseMotionEvent&);
+	void MouseDown(SDL_MouseButtonEvent&);
+	void MouseUp(SDL_MouseButtonEvent&);
+	void MouseWheel(SDL_MouseWheelEvent&);
+	void Resize(int, int);
+protected:
+	// init functions for better readability
+	void InitCube();
+	void InitSkyBox();
+
+	// variables for shaders
+	ProgramObject		m_program;			// shader programs
+	ProgramObject		m_programAxes;		
+	ProgramObject		m_programSkybox;	// skybox shaders
+
+	struct Vertex
+	{
+		glm::vec3 p;
+		glm::vec3 n;
+		glm::vec2 t;
+	};
+	// cube geometry
+	VertexArrayObject	m_CubeVao;			// VAO
+	IndexBuffer			m_CubeIndices;		// index buffer
+	ArrayBuffer			m_CubeVertexBuffer;	// VBO
+
+	// simpler inside out cube geometry for the skybox
+	VertexArrayObject	m_SkyboxVao;		// VAO
+	IndexBuffer			m_SkyboxIndices;	// index buffer
+	ArrayBuffer			m_SkyboxPos;		// VBO
+
+	gCamera				m_camera;
+
+	// textures
+	Texture2D			m_mossyTexture;
+	TextureCubeMap		m_skyboxTexture;
+
+
+	// loaded mesh
+	std::unique_ptr<Mesh> m_mesh;
+
+	// description of the cubes
+	std::array<bool, 10> m_isVisible;
+	const int           m_cubeNo = m_isVisible.size();
+
+	// variables for calculating real time fps - modified in Update()
+	double				m_delta_time;
+};
+
