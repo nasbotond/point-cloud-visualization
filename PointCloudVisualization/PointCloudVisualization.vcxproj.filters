@@ -146,5 +146,11 @@
     <None Include="includes\VertexArrayObject.inl">
       <Filter>GL utilities</Filter>
     </None>
+    <None Include="pointCloud.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="pointCloud.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

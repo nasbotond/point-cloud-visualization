@@ -46,7 +46,8 @@ public:
 	void Resize(int, int);
 protected:
 	// init functions for better readability
-	void InitCube();
+	void InitPointCloud();
+	// void InitCube();
 	void InitSkyBox();
 
 	// variables for shaders
@@ -57,13 +58,22 @@ protected:
 	struct Vertex
 	{
 		glm::vec3 p;
+		glm::vec3 c1;
+		glm::vec3 c2;
+		glm::vec2 t1;
+		glm::vec2 t2;
 		glm::vec3 n;
-		glm::vec2 t;
 	};
+
+	// point cloud geometry
+	VertexArrayObject m_PCVao;
+	IndexBuffer m_PCIndices;
+	ArrayBuffer m_PCVertexBuffer;
+
 	// cube geometry
-	VertexArrayObject	m_CubeVao;			// VAO
-	IndexBuffer			m_CubeIndices;		// index buffer
-	ArrayBuffer			m_CubeVertexBuffer;	// VBO
+	// VertexArrayObject	m_CubeVao;			// VAO
+	// IndexBuffer			m_CubeIndices;		// index buffer
+	// ArrayBuffer			m_CubeVertexBuffer;	// VBO
 
 	// simpler inside out cube geometry for the skybox
 	VertexArrayObject	m_SkyboxVao;		// VAO
@@ -78,7 +88,7 @@ protected:
 
 
 	// loaded mesh
-	std::unique_ptr<Mesh> m_mesh;
+	// std::unique_ptr<Mesh> m_mesh;
 
 	// description of the cubes
 	std::array<bool, 10> m_isVisible;

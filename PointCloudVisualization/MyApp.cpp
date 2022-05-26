@@ -23,54 +23,29 @@ CMyApp::~CMyApp(void)
 	std::cout << "dtor!\n";
 }
 
-void CMyApp::InitCube()
+void CMyApp::InitPointCloud()
 {
 	//struct Vertex{ glm::vec3 position; glm::vec3 normal; glm::vec2 texture; };
 	std::vector<Vertex>vertices;
 
-	//front									 
-	vertices.push_back({ glm::vec3(-0.5, -0.5, +0.5), glm::vec3(0, 0, 1), glm::vec2(0, 0) });
-	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, 0, 1), glm::vec2(1, 0) });
-	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 0, 1), glm::vec2(0, 1) });
-	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 0, 1), glm::vec2(1, 1) });
-	//back
-	vertices.push_back({ glm::vec3(+0.5, -0.5, -0.5), glm::vec3(0, 0, -1), glm::vec2(0, 0) });
-	vertices.push_back({ glm::vec3(-0.5, -0.5, -0.5), glm::vec3(0, 0, -1), glm::vec2(1, 0) });
-	vertices.push_back({ glm::vec3(+0.5, +0.5, -0.5), glm::vec3(0, 0, -1), glm::vec2(0, 1) });
-	vertices.push_back({ glm::vec3(-0.5, +0.5, -0.5), glm::vec3(0, 0, -1), glm::vec2(1, 1) });
-	//right									 
-	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(1, 0, 0), glm::vec2(0, 0) });
-	vertices.push_back({ glm::vec3(+0.5, -0.5, -0.5), glm::vec3(1, 0, 0), glm::vec2(1, 0) });
-	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(1, 0, 0), glm::vec2(0, 1) });
-	vertices.push_back({ glm::vec3(+0.5, +0.5, -0.5), glm::vec3(1, 0, 0), glm::vec2(1, 1) });
-	//left									 
-	vertices.push_back({ glm::vec3(-0.5, -0.5, -0.5), glm::vec3(-1, 0, 0), glm::vec2(0, 0) });
-	vertices.push_back({ glm::vec3(-0.5, -0.5, +0.5), glm::vec3(-1, 0, 0), glm::vec2(1, 0) });
-	vertices.push_back({ glm::vec3(-0.5, +0.5, -0.5), glm::vec3(-1, 0, 0), glm::vec2(0, 1) });
-	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(-1, 0, 0), glm::vec2(1, 1) });
-	//top									 
-	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 1, 0), glm::vec2(0, 0) });
-	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 1, 0), glm::vec2(1, 0) });
-	vertices.push_back({ glm::vec3(-0.5, +0.5, -0.5), glm::vec3(0, 1, 0), glm::vec2(0, 1) });
-	vertices.push_back({ glm::vec3(+0.5, +0.5, -0.5), glm::vec3(0, 1, 0), glm::vec2(1, 1) });
-	//bottom								 
-	vertices.push_back({ glm::vec3(-0.5, -0.5, -0.5), glm::vec3(0, -1, 0), glm::vec2(0, 0) });
-	vertices.push_back({ glm::vec3(+0.5, -0.5, -0.5), glm::vec3(0, -1, 0), glm::vec2(1, 0) });
-	vertices.push_back({ glm::vec3(-0.5, -0.5, +0.5), glm::vec3(0, -1, 0), glm::vec2(0, 1) });
-	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, -1, 0), glm::vec2(1, 1) });
+	// test points									 
+	vertices.push_back({ glm::vec3(-0.5, -0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
+	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
+	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
+	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
 
-	std::vector<int> indices(36);
-	int index = 0;
-	for (int i = 0; i < 6 * 4; i += 4)
-	{
-		indices[index + 0] = i + 0;
-		indices[index + 1] = i + 1;
-		indices[index + 2] = i + 2;
-		indices[index + 3] = i + 1;
-		indices[index + 4] = i + 3;
-		indices[index + 5] = i + 2;
-		index += 6;
-	}
+	//std::vector<int> indices(36);
+	//int index = 0;
+	//for (int i = 0; i < 6 * 4; i += 4)
+	//{
+	//	indices[index + 0] = i + 0;
+	//	indices[index + 1] = i + 1;
+	//	indices[index + 2] = i + 2;
+	//	indices[index + 3] = i + 1;
+	//	indices[index + 4] = i + 3;
+	//	indices[index + 5] = i + 2;
+	//	index += 6;
+	//}
 
 	//
 	// Defining geometry (std::vector<...>) and upload to GPU buffers (m_buffer*) with BufferData
@@ -83,26 +58,109 @@ void CMyApp::InitCube()
 	2. upload the values of the container given in the argument to the GPU by calling glBufferData
 	*/
 
-	m_CubeVertexBuffer.BufferData(vertices);
+	m_PCVertexBuffer.BufferData(vertices);
 
 	// And the indices which the primitives are constructed by (from the array defined above) - prepared to draw them as a triangle list
-	m_CubeIndices.BufferData(indices);
+	// m_CubeIndices.BufferData(indices);
 
 	// Registering geometry in VAO
-	m_CubeVao.Init(
+	m_PCVao.Init(
 		{
 			// Attribute 0 is "practically" an array of glm::vec3 and the data is in the GPU buffer (m_CubeVertexBuffer)
 			{ CreateAttribute<		0,						// Channel 0
 									glm::vec3,				// CPU-side data type which is used to define attributes of channel 0 <- the procedure deducts that the attribute 0 is made of 3 floats from the glm::vec3
 									offsetof(Vertex, p),	// offset: The offset of the attribute, considered from the beginning of the container
 									sizeof(Vertex)			// stride: This attribute of the next vertex will be this many bytes from the current
-								>, m_CubeVertexBuffer },
-			{ CreateAttribute<1, glm::vec3, offsetof(Vertex, n), sizeof(Vertex)>, m_CubeVertexBuffer },
-			{ CreateAttribute<2, glm::vec2, offsetof(Vertex, t), sizeof(Vertex)>, m_CubeVertexBuffer },
-		},
-		m_CubeIndices
+								>, m_PCVertexBuffer },
+			{ CreateAttribute<1, glm::vec3, offsetof(Vertex, c1), sizeof(Vertex)>, m_PCVertexBuffer },
+			{ CreateAttribute<2, glm::vec3, offsetof(Vertex, c2), sizeof(Vertex)>, m_PCVertexBuffer },
+			{ CreateAttribute<3, glm::vec2, offsetof(Vertex, t1), sizeof(Vertex)>, m_PCVertexBuffer },
+			{ CreateAttribute<4, glm::vec2, offsetof(Vertex, t2), sizeof(Vertex)>, m_PCVertexBuffer },
+			{ CreateAttribute<5, glm::vec3, offsetof(Vertex, n), sizeof(Vertex)>, m_PCVertexBuffer },
+		}
 	);
 }
+
+//void CMyApp::InitCube()
+//{
+//	//struct Vertex{ glm::vec3 position; glm::vec3 normal; glm::vec2 texture; };
+//	std::vector<Vertex>vertices;
+//
+//	//front									 
+//	vertices.push_back({ glm::vec3(-0.5, -0.5, +0.5), glm::vec3(0, 0, 1), glm::vec2(0, 0) });
+//	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, 0, 1), glm::vec2(1, 0) });
+//	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 0, 1), glm::vec2(0, 1) });
+//	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 0, 1), glm::vec2(1, 1) });
+//	//back
+//	vertices.push_back({ glm::vec3(+0.5, -0.5, -0.5), glm::vec3(0, 0, -1), glm::vec2(0, 0) });
+//	vertices.push_back({ glm::vec3(-0.5, -0.5, -0.5), glm::vec3(0, 0, -1), glm::vec2(1, 0) });
+//	vertices.push_back({ glm::vec3(+0.5, +0.5, -0.5), glm::vec3(0, 0, -1), glm::vec2(0, 1) });
+//	vertices.push_back({ glm::vec3(-0.5, +0.5, -0.5), glm::vec3(0, 0, -1), glm::vec2(1, 1) });
+//	//right									 
+//	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(1, 0, 0), glm::vec2(0, 0) });
+//	vertices.push_back({ glm::vec3(+0.5, -0.5, -0.5), glm::vec3(1, 0, 0), glm::vec2(1, 0) });
+//	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(1, 0, 0), glm::vec2(0, 1) });
+//	vertices.push_back({ glm::vec3(+0.5, +0.5, -0.5), glm::vec3(1, 0, 0), glm::vec2(1, 1) });
+//	//left									 
+//	vertices.push_back({ glm::vec3(-0.5, -0.5, -0.5), glm::vec3(-1, 0, 0), glm::vec2(0, 0) });
+//	vertices.push_back({ glm::vec3(-0.5, -0.5, +0.5), glm::vec3(-1, 0, 0), glm::vec2(1, 0) });
+//	vertices.push_back({ glm::vec3(-0.5, +0.5, -0.5), glm::vec3(-1, 0, 0), glm::vec2(0, 1) });
+//	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(-1, 0, 0), glm::vec2(1, 1) });
+//	//top									 
+//	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 1, 0), glm::vec2(0, 0) });
+//	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 1, 0), glm::vec2(1, 0) });
+//	vertices.push_back({ glm::vec3(-0.5, +0.5, -0.5), glm::vec3(0, 1, 0), glm::vec2(0, 1) });
+//	vertices.push_back({ glm::vec3(+0.5, +0.5, -0.5), glm::vec3(0, 1, 0), glm::vec2(1, 1) });
+//	//bottom								 
+//	vertices.push_back({ glm::vec3(-0.5, -0.5, -0.5), glm::vec3(0, -1, 0), glm::vec2(0, 0) });
+//	vertices.push_back({ glm::vec3(+0.5, -0.5, -0.5), glm::vec3(0, -1, 0), glm::vec2(1, 0) });
+//	vertices.push_back({ glm::vec3(-0.5, -0.5, +0.5), glm::vec3(0, -1, 0), glm::vec2(0, 1) });
+//	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, -1, 0), glm::vec2(1, 1) });
+//
+//	std::vector<int> indices(36);
+//	int index = 0;
+//	for (int i = 0; i < 6 * 4; i += 4)
+//	{
+//		indices[index + 0] = i + 0;
+//		indices[index + 1] = i + 1;
+//		indices[index + 2] = i + 2;
+//		indices[index + 3] = i + 1;
+//		indices[index + 4] = i + 3;
+//		indices[index + 5] = i + 2;
+//		index += 6;
+//	}
+//
+//	//
+//	// Defining geometry (std::vector<...>) and upload to GPU buffers (m_buffer*) with BufferData
+//	//
+//
+//	// Position of vertices:
+//	/*
+//	The constructor of m_CubeVertexBuffer has already created a GPU buffer identifier, and the following BufferData call will
+//	1. bind this to GL_ARRAY_BUFFER (because the type of m_gpuBufferPos is ArrayBuffer) and
+//	2. upload the values of the container given in the argument to the GPU by calling glBufferData
+//	*/
+//
+//	m_CubeVertexBuffer.BufferData(vertices);
+//
+//	// And the indices which the primitives are constructed by (from the array defined above) - prepared to draw them as a triangle list
+//	m_CubeIndices.BufferData(indices);
+//
+//	// Registering geometry in VAO
+//	m_CubeVao.Init(
+//		{
+//			// Attribute 0 is "practically" an array of glm::vec3 and the data is in the GPU buffer (m_CubeVertexBuffer)
+//			{ CreateAttribute<		0,						// Channel 0
+//									glm::vec3,				// CPU-side data type which is used to define attributes of channel 0 <- the procedure deducts that the attribute 0 is made of 3 floats from the glm::vec3
+//									offsetof(Vertex, p),	// offset: The offset of the attribute, considered from the beginning of the container
+//									sizeof(Vertex)			// stride: This attribute of the next vertex will be this many bytes from the current
+//								>, m_CubeVertexBuffer },
+//			{ CreateAttribute<1, glm::vec3, offsetof(Vertex, n), sizeof(Vertex)>, m_CubeVertexBuffer },
+//			{ CreateAttribute<2, glm::vec2, offsetof(Vertex, t), sizeof(Vertex)>, m_CubeVertexBuffer },
+//		},
+//		m_CubeIndices
+//	);
+//}
 
 void CMyApp::InitSkyBox()
 {
@@ -198,16 +256,26 @@ bool CMyApp::Init()
 
 	// Create the program containing shaders
 	m_program.AttachShaders({
-		{ GL_VERTEX_SHADER, "myVert.vert"},
-		{ GL_FRAGMENT_SHADER, "myFrag.frag"}
+		{ GL_VERTEX_SHADER, "pointcloud.vert"},
+		{ GL_FRAGMENT_SHADER, "pointcloud.frag"}
 	});
 
 	// Mapping attributes between VAO and shaders
 	m_program.BindAttribLocations({
-		{ 0, "vs_in_pos" },				// Channel 0 of the VAO should go into vs_in_pos
-		{ 1, "vs_in_norm" },			// Channel 1 of the VAO should go into vs_in_norm
-		{ 2, "vs_in_tex" },				// Channel 1 of the VAO should go into vs_in_tex		
+		{ 0, "vs_in_pos" },
+		{ 1, "vs_in_c1" },
+		{ 2, "vs_in_c2" },
+		{ 3, "vs_in_t1" },
+		{ 4, "vs_in_t2" },
+		{ 5, "vs_in_norm" },
 	});
+
+	//// Mapping attributes between VAO and shaders
+	//m_program.BindAttribLocations({
+	//	{ 0, "vs_in_pos" },				// Channel 0 of the VAO should go into vs_in_pos
+	//	{ 1, "vs_in_norm" },			// Channel 1 of the VAO should go into vs_in_norm
+	//	{ 2, "vs_in_tex" },				// Channel 1 of the VAO should go into vs_in_tex		
+	//});
 
 	m_program.LinkProgram();
 
@@ -230,7 +298,8 @@ bool CMyApp::Init()
 	});
 
 	// init geometry
-	InitCube();
+	InitPointCloud();
+	// InitCube();
 	// init skybox geometry and texture
 	InitSkyBox();
 
@@ -238,8 +307,8 @@ bool CMyApp::Init()
 	m_mossyTexture.FromFile("Assets/mossy.png");
 
 	// load mesh
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("Assets/Suzanne.obj"));
-	m_mesh->initBuffers();
+	//m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("Assets/Suzanne.obj"));
+	//m_mesh->initBuffers();
 
 	// Camera
 	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 1000.0f);
@@ -275,44 +344,54 @@ void CMyApp::Render()
 	//
 	// Mesh (Suzanne)
 	//
-	glm::mat4 suzanneWorld = glm::translate(glm::vec3(0.0f, 2.0f, 0.0f));
-	m_program.Use();
-	m_program.SetTexture("texImage", 0, m_mossyTexture);
-	m_program.SetUniform("MVP", m_camera.GetViewProj() * suzanneWorld);
-	m_program.SetUniform("world", suzanneWorld);
-	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(suzanneWorld)));
-	m_mesh->draw();
+	//glm::mat4 suzanneWorld = glm::translate(glm::vec3(0.0f, 2.0f, 0.0f));
+	//m_program.Use();
+	//m_program.SetTexture("texImage", 0, m_mossyTexture);
+	//m_program.SetUniform("MVP", m_camera.GetViewProj() * suzanneWorld);
+	//m_program.SetUniform("world", suzanneWorld);
+	//m_program.SetUniform("worldIT", glm::inverse(glm::transpose(suzanneWorld)));
+	//m_mesh->draw();
 
 	//
 	// Cubes
 	//
-	m_CubeVao.Bind();
+	// m_CubeVao.Bind();
+	m_PCVao.Bind();
 
 	m_program.Use();
 
 	// Main cube
-	glm::mat4 cubeWorld = glm::mat4(1);
-	m_program.SetUniform("MVP", m_camera.GetViewProj() * cubeWorld);
-	m_program.SetUniform("world", cubeWorld);
-	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(cubeWorld)));
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
+	glm::mat4 pointCloudWorld = glm::mat4(1);
+	glUniform1i(m_program.GetLocation("colOrTexIndex"), 1); // TODO: using ImGui to select between c1, c2, t1, t2
+	m_program.SetTexture("texImage", 0, m_mossyTexture); // TODO: using ImGui select either texture image 1 or 2
+	m_program.SetUniform("MVP", m_camera.GetViewProj() * pointCloudWorld);
+	m_program.SetUniform("world", pointCloudWorld);
+	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(pointCloudWorld)));
+	glDrawElements(GL_POINTS, 5, GL_UNSIGNED_INT, nullptr);
+
+	// Main cube
+	//glm::mat4 cubeWorld = glm::mat4(1);
+	//m_program.SetUniform("MVP", m_camera.GetViewProj() * cubeWorld);
+	//m_program.SetUniform("world", cubeWorld);
+	//m_program.SetUniform("worldIT", glm::inverse(glm::transpose(cubeWorld)));
+	//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 
 	// Little cubes
-	for (int i = 0; i < m_cubeNo; ++i)
-	{
-		if (!m_isVisible[i])
-			continue;
+	//for (int i = 0; i < m_cubeNo; ++i)
+	//{
+	//	if (!m_isVisible[i])
+	//		continue;
 
-		cubeWorld = 
-			glm::rotate( SDL_GetTicks()/1000.0f + 2 * glm::pi<float>()/10*i, glm::vec3(0,1,0) )*
-			glm::translate(glm::vec3(10 + 5*sinf(SDL_GetTicks()/1000.0f),0,0))*
-			glm::rotate( (i+1)*SDL_GetTicks() / 1000.0f, glm::vec3(0, 1, 0))*
-			glm::scale(glm::vec3(0.5));
-		m_program.SetUniform("MVP", m_camera.GetViewProj() * cubeWorld);
-		m_program.SetUniform("world", cubeWorld);
-		m_program.SetUniform("worldIT", glm::inverse(glm::transpose(cubeWorld)));
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-	}
+	//	cubeWorld = 
+	//		glm::rotate( SDL_GetTicks()/1000.0f + 2 * glm::pi<float>()/10*i, glm::vec3(0,1,0) )*
+	//		glm::translate(glm::vec3(10 + 5*sinf(SDL_GetTicks()/1000.0f),0,0))*
+	//		glm::rotate( (i+1)*SDL_GetTicks() / 1000.0f, glm::vec3(0, 1, 0))*
+	//		glm::scale(glm::vec3(0.5));
+	//	m_program.SetUniform("MVP", m_camera.GetViewProj() * cubeWorld);
+	//	m_program.SetUniform("world", cubeWorld);
+	//	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(cubeWorld)));
+	//	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
+	//}
 
 	//
 	// Skybox
@@ -393,7 +472,7 @@ void CMyApp::Render()
 
 			ImGui::SliderFloat("Refresh time", &refresh_time, 0.01f, 1.0f);
 		}
-	} //window
+	} // window
 	ImGui::End();
 }
 

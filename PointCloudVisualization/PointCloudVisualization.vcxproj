@@ -186,6 +186,8 @@
     <None Include="includes\ProgramObject.inl" />
     <None Include="includes\TextureObject.inl" />
     <None Include="includes\VertexArrayObject.inl" />
+    <None Include="pointCloud.frag" />
+    <None Include="pointCloud.vert" />
     <None Include="skybox.frag" />
     <None Include="skybox.vert" />
     <ClCompile Include="T:\OGLPack\include\imgui\imgui.cpp" />
