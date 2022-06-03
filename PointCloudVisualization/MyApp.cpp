@@ -362,7 +362,7 @@ void CMyApp::Render()
 
 	// Main cube
 	glm::mat4 pointCloudWorld = glm::mat4(1);
-	glUniform1i(m_program.GetLocation("colOrTexIndex"), 1); // TODO: using ImGui to select between c1, c2, t1, t2
+	glUniform1i(m_program.GetLocation("colOrTexIndex"), e); // TODO: using ImGui to select between c1, c2, t1, t2
 	m_program.SetTexture("texImage", 0, m_mossyTexture); // TODO: using ImGui select either texture image 1 or 2
 	m_program.SetUniform("MVP", m_camera.GetViewProj() * pointCloudWorld);
 	m_program.SetUniform("world", pointCloudWorld);
@@ -455,6 +455,13 @@ void CMyApp::Render()
 				auto& visible = m_isVisible[random(mt)];
 				visible = !visible; 
 			}
+
+			ImGui::Text("Select Color or Texture of points");
+			// static int e = 0;
+			ImGui::RadioButton("Color 1", &e, 0); ImGui::SameLine();
+			ImGui::RadioButton("Color 2", &e, 1); ImGui::SameLine();
+			ImGui::RadioButton("Texture 1", &e, 2); ImGui::SameLine();
+			ImGui::RadioButton("Texture 2", &e, 3);
 
 			static float refresh_time = 0.1f;
 			static float timer = 0;

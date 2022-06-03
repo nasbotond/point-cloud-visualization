@@ -96,5 +96,8 @@ protected:
 
 	// variables for calculating real time fps - modified in Update()
 	double				m_delta_time;
+
+	// variable for determining color or texture of points
+	int e = 1;
 };
 
