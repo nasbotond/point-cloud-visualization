@@ -116,12 +116,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="myFrag.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="myVert.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="skybox.vert">
       <Filter>Shaders</Filter>
     </None>
@@ -150,6 +144,15 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="pointCloud.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="pointNormal.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="pointNormal.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="pointNormal.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

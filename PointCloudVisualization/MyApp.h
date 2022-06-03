@@ -47,11 +47,13 @@ public:
 protected:
 	// init functions for better readability
 	void InitPointCloud();
+	void InitPointNormal();
 	// void InitCube();
 	void InitSkyBox();
 
 	// variables for shaders
 	ProgramObject		m_program;			// shader programs
+	ProgramObject		m_programPointNormal; // point normal visualization
 	ProgramObject		m_programAxes;		
 	ProgramObject		m_programSkybox;	// skybox shaders
 
@@ -69,6 +71,11 @@ protected:
 	VertexArrayObject m_PCVao;
 	IndexBuffer m_PCIndices;
 	ArrayBuffer m_PCVertexBuffer;
+
+	// point normal geometry
+	VertexArrayObject m_PNVao;
+	IndexBuffer m_PNIndices;
+	ArrayBuffer m_PNVertexBuffer;
 
 	// cube geometry
 	// VertexArrayObject	m_CubeVao;			// VAO
@@ -99,5 +106,6 @@ protected:
 
 	// variable for determining color or texture of points
 	int e = 1;
+	int normal_magnitude = 1;
 };
 

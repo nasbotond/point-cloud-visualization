@@ -187,17 +187,16 @@
     <None Include="includes\TextureObject.inl" />
     <None Include="includes\VertexArrayObject.inl" />
     <None Include="pointCloud.frag" />
+    <None Include="pointNormal.frag" />
+    <None Include="pointNormal.geom" />
     <None Include="pointCloud.vert" />
+    <None Include="pointNormal.vert" />
     <None Include="skybox.frag" />
     <None Include="skybox.vert" />
     <ClCompile Include="T:\OGLPack\include\imgui\imgui.cpp" />
     <ClCompile Include="T:\OGLPack\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="T:\OGLPack\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="T:\OGLPack\include\imgui\imgui_impl_sdl_gl3.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="myFrag.frag" />
-    <None Include="myVert.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
