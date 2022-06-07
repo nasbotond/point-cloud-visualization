@@ -223,13 +223,6 @@ bool CMyApp::Init()
 		{ 5, "vs_in_norm" },
 	});
 
-	//// Mapping attributes between VAO and shaders
-	//m_program.BindAttribLocations({
-	//	{ 0, "vs_in_pos" },				// Channel 0 of the VAO should go into vs_in_pos
-	//	{ 1, "vs_in_norm" },			// Channel 1 of the VAO should go into vs_in_norm
-	//	{ 2, "vs_in_tex" },				// Channel 1 of the VAO should go into vs_in_tex		
-	//});
-
 	m_program.LinkProgram();
 
 	// Create the program containing shaders
@@ -291,23 +284,16 @@ bool CMyApp::Init()
 	// init geometry
 	InitPointCloud();
 	InitPointNormal();
-	// InitCube();
 	// init skybox geometry and texture
 	InitSkyBox();
 
 	// load texture
-	m_mossyTexture.FromFile("Assets/mossy.png");
-
-	// load mesh
-	//m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("Assets/Suzanne.obj"));
-	//m_mesh->initBuffers();
+	// m_mossyTexture.FromFile("Assets/mossy.png");
+	m_bearTexture1.FromFile("Assets/bear1.png");
+	m_bearTexture2.FromFile("Assets/bear2.png");
 
 	// Camera
 	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 1000.0f);
-
-
-	// Initializing the cubes
-	std::fill_n(m_isVisible.begin(), m_isVisible.size(), true);
 
 	return true;
 }
@@ -333,21 +319,6 @@ void CMyApp::Render()
 	// Delete the frame buffer (GL_COLOR_BUFFER_BIT) and the depth (Z) buffer (GL_DEPTH_BUFFER_BIT)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//
-	// Mesh (Suzanne)
-	//
-	//glm::mat4 suzanneWorld = glm::translate(glm::vec3(0.0f, 2.0f, 0.0f));
-	//m_program.Use();
-	//m_program.SetTexture("texImage", 0, m_mossyTexture);
-	//m_program.SetUniform("MVP", m_camera.GetViewProj() * suzanneWorld);
-	//m_program.SetUniform("world", suzanneWorld);
-	//m_program.SetUniform("worldIT", glm::inverse(glm::transpose(suzanneWorld)));
-	//m_mesh->draw();
-
-	//
-	// Cubes
-	//
-	// m_CubeVao.Bind();
 	m_PCVao.Bind();
 
 	m_program.Use();
@@ -355,7 +326,7 @@ void CMyApp::Render()
 	// point cloud
 	glm::mat4 pointCloudWorld = glm::mat4(1);
 	glUniform1i(m_program.GetLocation("colOrTexIndex"), e);
-	m_program.SetTexture("texImage", 0, m_mossyTexture);
+	m_program.SetTexture("texImage", 0, m_bearTexture1);
 	m_program.SetUniform("MVP", m_camera.GetViewProj() * pointCloudWorld);
 	m_program.SetUniform("world", pointCloudWorld);
 	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(m_camera.GetViewProj() * pointCloudWorld)));
@@ -395,30 +366,6 @@ void CMyApp::Render()
 	m_programRectangle.SetUniform("world", pointNormalWorld);
 	m_programRectangle.SetUniform("worldIT", glm::inverse(glm::transpose(view * pointNormalWorld)));
 	glDrawArrays(GL_POINTS, 0, 5);
-
-	// Main cube
-	//glm::mat4 cubeWorld = glm::mat4(1);
-	//m_program.SetUniform("MVP", m_camera.GetViewProj() * cubeWorld);
-	//m_program.SetUniform("world", cubeWorld);
-	//m_program.SetUniform("worldIT", glm::inverse(glm::transpose(cubeWorld)));
-	//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-
-	// Little cubes
-	//for (int i = 0; i < m_cubeNo; ++i)
-	//{
-	//	if (!m_isVisible[i])
-	//		continue;
-
-	//	cubeWorld = 
-	//		glm::rotate( SDL_GetTicks()/1000.0f + 2 * glm::pi<float>()/10*i, glm::vec3(0,1,0) )*
-	//		glm::translate(glm::vec3(10 + 5*sinf(SDL_GetTicks()/1000.0f),0,0))*
-	//		glm::rotate( (i+1)*SDL_GetTicks() / 1000.0f, glm::vec3(0, 1, 0))*
-	//		glm::scale(glm::vec3(0.5));
-	//	m_program.SetUniform("MVP", m_camera.GetViewProj() * cubeWorld);
-	//	m_program.SetUniform("world", cubeWorld);
-	//	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(cubeWorld)));
-	//	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-	//}
 
 	//
 	// Skybox
@@ -475,13 +422,6 @@ void CMyApp::Render()
 		{
 			static std::random_device rd;
 			static std::mt19937 mt(rd());
-			static std::uniform_int_distribution<int> random(0, m_cubeNo-1);
-
-			ImGui::Text("Trigger the visibility of one random cube");
-			if (ImGui::Button("Button")) {
-				auto& visible = m_isVisible[random(mt)];
-				visible = !visible; 
-			}
 
 			ImGui::Text("Select Color or Texture of points");
 			// static int e = 0;
@@ -554,4 +494,9 @@ void CMyApp::Resize(int _w, int _h)
 	glViewport(0, 0, _w, _h );
 
 	m_camera.Resize(_w, _h);
+}
+
+void CMyApp::ReadPointData()
+{
+
 }

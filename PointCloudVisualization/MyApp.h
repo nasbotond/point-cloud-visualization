@@ -44,6 +44,8 @@ public:
 	void MouseUp(SDL_MouseButtonEvent&);
 	void MouseWheel(SDL_MouseWheelEvent&);
 	void Resize(int, int);
+	void ReadPointData();
+
 protected:
 	// init functions for better readability
 	void InitPointCloud();
@@ -94,13 +96,8 @@ protected:
 	Texture2D			m_mossyTexture;
 	TextureCubeMap		m_skyboxTexture;
 
-
-	// loaded mesh
-	// std::unique_ptr<Mesh> m_mesh;
-
-	// description of the cubes
-	std::array<bool, 10> m_isVisible;
-	const int           m_cubeNo = m_isVisible.size();
+	Texture2D			m_bearTexture1;
+	Texture2D			m_bearTexture2;
 
 	// variables for calculating real time fps - modified in Update()
 	double				m_delta_time;
