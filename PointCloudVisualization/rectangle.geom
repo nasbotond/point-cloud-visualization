@@ -6,12 +6,17 @@ in VS_OUT {
     vec3 normal;
 	int l;
 	int w;
+    vec3 color;
 } gs_in[];
+
+out vec3 fColor;
 
 uniform mat4 projection;
 
 void main()
 {
+    fColor = gs_in[0].color;
+
     vec3 u = vec3(1, -1, 0);
     vec3 v2 = cross(gs_in[0].normal, u);
     vec3 v3 = normalize(cross(gs_in[0].normal, v2));

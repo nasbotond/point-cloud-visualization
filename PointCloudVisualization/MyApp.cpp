@@ -89,10 +89,10 @@ void CMyApp::InitPointNormal()
 	std::vector<Vertex>vertices;
 
 	// test points									 
-	vertices.push_back({ glm::vec3(0.727813, -1.4546, -2.40505), glm::vec3(0.811765*255, 0.843137*255, 1*255), glm::vec3(0.690196 * 255, 0.254902 * 255, 0.0784314 * 255), glm::vec2(0.39972, 0.815711), glm::vec2(0.438485, 0.766398), glm::vec3(-0.0077142, 0.98009, 0.98009) });
-	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
-	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
-	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
+	vertices.push_back({ glm::vec3(0.727813, -1.4546, -2.40505), glm::vec3(0.811765, 0.843137, 1), glm::vec3(0.690196, 0.254902, 0.0784314), glm::vec2(0.39972, 0.815711), glm::vec2(0.438485, 0.766398), glm::vec3(-0.0077142, 0.98009, 0.98009) });
+	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
+	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
+	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
 
 
 	m_PNVertexBuffer.BufferData(vertices);
@@ -354,8 +354,8 @@ void CMyApp::Render()
 
 	// point cloud
 	glm::mat4 pointCloudWorld = glm::mat4(1);
-	glUniform1i(m_program.GetLocation("colOrTexIndex"), e); // TODO: using ImGui to select between c1, c2, t1, t2
-	m_program.SetTexture("texImage", 0, m_mossyTexture); // TODO: using ImGui select either texture image 1 or 2
+	glUniform1i(m_program.GetLocation("colOrTexIndex"), e);
+	m_program.SetTexture("texImage", 0, m_mossyTexture);
 	m_program.SetUniform("MVP", m_camera.GetViewProj() * pointCloudWorld);
 	m_program.SetUniform("world", pointCloudWorld);
 	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(m_camera.GetViewProj() * pointCloudWorld)));
@@ -389,6 +389,7 @@ void CMyApp::Render()
 	// glm::mat4 projection = m_camera.GetProj();
 	glUniform1i(m_programRectangle.GetLocation("l"), l);
 	glUniform1i(m_programRectangle.GetLocation("w"), w);
+	glUniform1i(m_programRectangle.GetLocation("rectColor"), rectColor);
 	m_programRectangle.SetUniform("projection", projection);
 	m_programRectangle.SetUniform("MVP", view * pointNormalWorld);
 	m_programRectangle.SetUniform("world", pointNormalWorld);
@@ -495,6 +496,10 @@ void CMyApp::Render()
 			ImGui::Text("Select size of rectangle (increments of 0.1):");
 			ImGui::SliderInt("width", &w, 0, 15);
 			ImGui::SliderInt("length", &l, 0, 15);
+
+			ImGui::Text("Select Color of Rectangles:");
+			ImGui::RadioButton("Rect. Color 1", &rectColor, 1); ImGui::SameLine();
+			ImGui::RadioButton("Rect. Color 2", &rectColor, 2);
 
 			static float refresh_time = 0.1f;
 			static float timer = 0;

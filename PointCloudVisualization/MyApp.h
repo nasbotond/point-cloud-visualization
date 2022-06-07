@@ -110,5 +110,6 @@ protected:
 	int normal_magnitude = 1;
 	int l = 1;
 	int w = 1;
+	int rectColor = 1;
 };
 
