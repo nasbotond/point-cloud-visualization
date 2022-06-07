@@ -251,6 +251,25 @@ bool CMyApp::Init()
 
 	m_programPointNormal.LinkProgram();
 
+	// Create the program containing shaders
+	m_programRectangle.AttachShaders({
+		{ GL_VERTEX_SHADER, "rectangle.vert"},
+		{ GL_GEOMETRY_SHADER, "rectangle.geom"},
+		{ GL_FRAGMENT_SHADER, "rectangle.frag"}
+		});
+
+	// Mapping attributes between VAO and shaders
+	m_programRectangle.BindAttribLocations({
+		{ 0, "vs_in_pos" },
+		{ 1, "vs_in_c1" },
+		{ 2, "vs_in_c2" },
+		{ 3, "vs_in_t1" },
+		{ 4, "vs_in_t2" },
+		{ 5, "vs_in_norm" },
+		});
+
+	m_programRectangle.LinkProgram();
+
 	// Fast creation of the shader program (the 3 function calls above inside a single call)
 	m_programSkybox.Init(
 	{
@@ -359,6 +378,23 @@ void CMyApp::Render()
 	m_programPointNormal.SetUniform("worldIT", glm::inverse(glm::transpose(view * pointNormalWorld)));
 	glDrawArrays(GL_POINTS, 0, 5);
 
+	// rectangles
+
+	// m_PNVao.Bind();
+
+	m_programRectangle.Use();
+
+	// glm::mat4 pointNormalWorld = glm::mat4(1);
+	// glm::mat4 view = m_camera.GetViewMatrix();
+	// glm::mat4 projection = m_camera.GetProj();
+	glUniform1i(m_programRectangle.GetLocation("l"), l);
+	glUniform1i(m_programRectangle.GetLocation("w"), w);
+	m_programRectangle.SetUniform("projection", projection);
+	m_programRectangle.SetUniform("MVP", view * pointNormalWorld);
+	m_programRectangle.SetUniform("world", pointNormalWorld);
+	m_programRectangle.SetUniform("worldIT", glm::inverse(glm::transpose(view * pointNormalWorld)));
+	glDrawArrays(GL_POINTS, 0, 5);
+
 	// Main cube
 	//glm::mat4 cubeWorld = glm::mat4(1);
 	//m_program.SetUniform("MVP", m_camera.GetViewProj() * cubeWorld);
@@ -453,8 +489,12 @@ void CMyApp::Render()
 			ImGui::RadioButton("Texture 1", &e, 2); ImGui::SameLine();
 			ImGui::RadioButton("Texture 2", &e, 3);
 
-			ImGui::Text("Select length of normal vector");
+			ImGui::Text("Select length of normal vector (increments of 0.2):");
 			ImGui::SliderInt("magnitude", &normal_magnitude, 0, 15);
+
+			ImGui::Text("Select size of rectangle (increments of 0.1):");
+			ImGui::SliderInt("width", &w, 0, 15);
+			ImGui::SliderInt("length", &l, 0, 15);
 
 			static float refresh_time = 0.1f;
 			static float timer = 0;

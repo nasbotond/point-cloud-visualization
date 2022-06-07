@@ -191,6 +191,9 @@
     <None Include="pointNormal.geom" />
     <None Include="pointCloud.vert" />
     <None Include="pointNormal.vert" />
+    <None Include="rectangle.frag" />
+    <None Include="rectangle.geom" />
+    <None Include="rectangle.vert" />
     <None Include="skybox.frag" />
     <None Include="skybox.vert" />
     <ClCompile Include="T:\OGLPack\include\imgui\imgui.cpp" />

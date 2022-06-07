@@ -54,6 +54,7 @@ protected:
 	// variables for shaders
 	ProgramObject		m_program;			// shader programs
 	ProgramObject		m_programPointNormal; // point normal visualization
+	ProgramObject		m_programRectangle; // small rectangles perpendicular to normal vector
 	ProgramObject		m_programAxes;		
 	ProgramObject		m_programSkybox;	// skybox shaders
 
@@ -107,5 +108,7 @@ protected:
 	// variable for determining color or texture of points
 	int e = 1;
 	int normal_magnitude = 1;
+	int l = 1;
+	int w = 1;
 };
 

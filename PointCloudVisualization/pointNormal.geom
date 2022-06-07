@@ -19,7 +19,7 @@ void main()
 {
     gl_Position = projection * gl_in[0].gl_Position;
     EmitVertex();
-    gl_Position = projection * (gl_in[0].gl_Position + vec4(gs_in[0].normal, 0.0) * gs_in[0].magnitude * 0.5);
+    gl_Position = projection * (gl_in[0].gl_Position + vec4(gs_in[0].normal, 0.0) * gs_in[0].magnitude * 0.2);
     EmitVertex();
     EndPrimitive();
 }  

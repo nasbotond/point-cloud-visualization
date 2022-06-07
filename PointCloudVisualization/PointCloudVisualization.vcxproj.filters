@@ -155,5 +155,14 @@
     <None Include="pointNormal.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="rectangle.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="rectangle.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="rectangle.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
