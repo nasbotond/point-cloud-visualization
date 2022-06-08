@@ -50,8 +50,6 @@ public:
 
 protected:
 	// init functions for better readability
-	void InitPointCloud();
-	void InitPointNormal();
 	void InitSkyBox();
 
 	// data parser method
@@ -79,20 +77,9 @@ protected:
 	std::vector<Vertex> vertices;
 	int vertexNum;
 
-	// point cloud geometry
-	VertexArrayObject m_PCVao;
-	IndexBuffer m_PCIndices;
-	ArrayBuffer m_PCVertexBuffer;
-
-	// point normal geometry
-	VertexArrayObject m_PNVao;
-	IndexBuffer m_PNIndices;
-	ArrayBuffer m_PNVertexBuffer;
-
-	// cube geometry
-	// VertexArrayObject	m_CubeVao;			// VAO
-	// IndexBuffer			m_CubeIndices;		// index buffer
-	// ArrayBuffer			m_CubeVertexBuffer;	// VBO
+	// point geometry
+	VertexArrayObject m_Vao;
+	ArrayBuffer m_VertexBuffer;
 
 	// simpler inside out cube geometry for the skybox
 	VertexArrayObject	m_SkyboxVao;		// VAO
@@ -102,7 +89,6 @@ protected:
 	gCamera				m_camera;
 
 	// textures
-	Texture2D			m_mossyTexture;
 	TextureCubeMap		m_skyboxTexture;
 
 	Texture2D			m_bearTexture1;
@@ -112,7 +98,7 @@ protected:
 	double				m_delta_time;
 
 	// variable for determining color or texture of points
-	int e = 1;
+	int e = 0;
 	int normal_magnitude = 1;
 	int l = 1;
 	int w = 1;

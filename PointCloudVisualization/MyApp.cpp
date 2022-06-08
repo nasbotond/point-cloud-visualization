@@ -25,103 +25,6 @@ CMyApp::~CMyApp(void)
 	std::cout << "dtor!\n";
 }
 
-void CMyApp::InitPointCloud()
-{
-	//struct Vertex{ glm::vec3 position; glm::vec3 normal; glm::vec2 texture; };
-	//std::vector<Vertex>vertices;
-
-	// test points	
-	/*
-	vertices.push_back({ glm::vec3(0.727813, -1.4546, -2.40505), glm::vec3(0.811765, 0.843137, 1), glm::vec3(0.690196, 0.254902, 0.0784314), glm::vec2(0.39972, 0.815711), glm::vec2(0.438485, 0.766398), glm::vec3(-0.0077142, 0.98009, 0.98009) });
-	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
-	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
-	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
-	*/
-	ReadPointData();
-	vertexNum = vertices.size();
-
-	//std::vector<int> indices(36);
-	//int index = 0;
-	//for (int i = 0; i < 6 * 4; i += 4)
-	//{
-	//	indices[index + 0] = i + 0;
-	//	indices[index + 1] = i + 1;
-	//	indices[index + 2] = i + 2;
-	//	indices[index + 3] = i + 1;
-	//	indices[index + 4] = i + 3;
-	//	indices[index + 5] = i + 2;
-	//	index += 6;
-	//}
-
-	//
-	// Defining geometry (std::vector<...>) and upload to GPU buffers (m_buffer*) with BufferData
-	//
-
-	// Position of vertices:
-	/*
-	The constructor of m_CubeVertexBuffer has already created a GPU buffer identifier, and the following BufferData call will
-	1. bind this to GL_ARRAY_BUFFER (because the type of m_gpuBufferPos is ArrayBuffer) and
-	2. upload the values of the container given in the argument to the GPU by calling glBufferData
-	*/
-
-	m_PCVertexBuffer.BufferData(vertices);
-
-	// And the indices which the primitives are constructed by (from the array defined above) - prepared to draw them as a triangle list
-	// m_CubeIndices.BufferData(indices);
-
-	// Registering geometry in VAO
-	m_PCVao.Init(
-		{
-			// Attribute 0 is "practically" an array of glm::vec3 and the data is in the GPU buffer (m_CubeVertexBuffer)
-			{ CreateAttribute<		0,						// Channel 0
-									glm::vec3,				// CPU-side data type which is used to define attributes of channel 0 <- the procedure deducts that the attribute 0 is made of 3 floats from the glm::vec3
-									offsetof(Vertex, p),	// offset: The offset of the attribute, considered from the beginning of the container
-									sizeof(Vertex)			// stride: This attribute of the next vertex will be this many bytes from the current
-								>, m_PCVertexBuffer },
-			{ CreateAttribute<1, glm::vec3, offsetof(Vertex, c1), sizeof(Vertex)>, m_PCVertexBuffer },
-			{ CreateAttribute<2, glm::vec3, offsetof(Vertex, c2), sizeof(Vertex)>, m_PCVertexBuffer },
-			{ CreateAttribute<3, glm::vec2, offsetof(Vertex, t1), sizeof(Vertex)>, m_PCVertexBuffer },
-			{ CreateAttribute<4, glm::vec2, offsetof(Vertex, t2), sizeof(Vertex)>, m_PCVertexBuffer },
-			{ CreateAttribute<5, glm::vec3, offsetof(Vertex, n), sizeof(Vertex)>, m_PCVertexBuffer },
-		}
-	);
-}
-
-void CMyApp::InitPointNormal()
-{
-	/*
-	//struct Vertex{ glm::vec3 position; glm::vec3 normal; glm::vec2 texture; };
-	std::vector<Vertex>vertices;
-
-	// test points									 
-	vertices.push_back({ glm::vec3(0.727813, -1.4546, -2.40505), glm::vec3(0.811765, 0.843137, 1), glm::vec3(0.690196, 0.254902, 0.0784314), glm::vec2(0.39972, 0.815711), glm::vec2(0.438485, 0.766398), glm::vec3(-0.0077142, 0.98009, 0.98009) });
-	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
-	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
-	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
-	*/
-	ReadPointData();
-	vertexNum = vertices.size();
-
-	m_PNVertexBuffer.BufferData(vertices);
-
-	// Registering geometry in VAO
-	m_PNVao.Init(
-		{
-			// Attribute 0 is "practically" an array of glm::vec3 and the data is in the GPU buffer (m_CubeVertexBuffer)
-			{ CreateAttribute<		0,						// Channel 0
-									glm::vec3,				// CPU-side data type which is used to define attributes of channel 0 <- the procedure deducts that the attribute 0 is made of 3 floats from the glm::vec3
-									offsetof(Vertex, p),	// offset: The offset of the attribute, considered from the beginning of the container
-									sizeof(Vertex)			// stride: This attribute of the next vertex will be this many bytes from the current
-								>, m_PNVertexBuffer },
-			{ CreateAttribute<1, glm::vec3, offsetof(Vertex, c1), sizeof(Vertex)>, m_PNVertexBuffer },
-			{ CreateAttribute<2, glm::vec3, offsetof(Vertex, c2), sizeof(Vertex)>, m_PNVertexBuffer },
-			{ CreateAttribute<3, glm::vec2, offsetof(Vertex, t1), sizeof(Vertex)>, m_PNVertexBuffer },
-			{ CreateAttribute<4, glm::vec2, offsetof(Vertex, t2), sizeof(Vertex)>, m_PNVertexBuffer },
-			{ CreateAttribute<5, glm::vec3, offsetof(Vertex, n), sizeof(Vertex)>, m_PNVertexBuffer }
-		}
-	);
-}
-
 void CMyApp::InitSkyBox()
 {
 	//
@@ -247,7 +150,7 @@ bool CMyApp::Init()
 		{ 3, "vs_in_t1" },
 		{ 4, "vs_in_t2" },
 		{ 5, "vs_in_norm" },
-		});
+	});
 
 	m_programPointNormal.LinkProgram();
 
@@ -256,7 +159,7 @@ bool CMyApp::Init()
 		{ GL_VERTEX_SHADER, "rectangle.vert"},
 		{ GL_GEOMETRY_SHADER, "rectangle.geom"},
 		{ GL_FRAGMENT_SHADER, "rectangle.frag"}
-		});
+	});
 
 	// Mapping attributes between VAO and shaders
 	m_programRectangle.BindAttribLocations({
@@ -266,7 +169,7 @@ bool CMyApp::Init()
 		{ 3, "vs_in_t1" },
 		{ 4, "vs_in_t2" },
 		{ 5, "vs_in_norm" },
-		});
+	});
 
 	m_programRectangle.LinkProgram();
 
@@ -288,14 +191,33 @@ bool CMyApp::Init()
 		"axis.frag"_fs
 	});
 
-	// init geometry
-	InitPointCloud();
-	InitPointNormal();
+	// get vertices from input file
+	ReadPointData();
+	vertexNum = vertices.size();
+
+	m_VertexBuffer.BufferData(vertices);
+
+	// Registering geometry in VAO
+	m_Vao.Init(
+		{
+			// Attribute 0 is "practically" an array of glm::vec3 and the data is in the GPU buffer (m_CubeVertexBuffer)
+			{ CreateAttribute<		0,						// Channel 0
+									glm::vec3,				// CPU-side data type which is used to define attributes of channel 0 <- the procedure deducts that the attribute 0 is made of 3 floats from the glm::vec3
+									offsetof(Vertex, p),	// offset: The offset of the attribute, considered from the beginning of the container
+									sizeof(Vertex)			// stride: This attribute of the next vertex will be this many bytes from the current
+								>, m_VertexBuffer },
+			{ CreateAttribute<1, glm::vec3, offsetof(Vertex, c1), sizeof(Vertex)>, m_VertexBuffer },
+			{ CreateAttribute<2, glm::vec3, offsetof(Vertex, c2), sizeof(Vertex)>, m_VertexBuffer },
+			{ CreateAttribute<3, glm::vec2, offsetof(Vertex, t1), sizeof(Vertex)>, m_VertexBuffer },
+			{ CreateAttribute<4, glm::vec2, offsetof(Vertex, t2), sizeof(Vertex)>, m_VertexBuffer },
+			{ CreateAttribute<5, glm::vec3, offsetof(Vertex, n), sizeof(Vertex)>, m_VertexBuffer }
+		}
+	);
+
 	// init skybox geometry and texture
 	InitSkyBox();
 
 	// load texture
-	// m_mossyTexture.FromFile("Assets/mossy.png");
 	m_bearTexture1.FromFile("Assets/bear1.png");
 	m_bearTexture2.FromFile("Assets/bear2.png");
 
@@ -326,52 +248,45 @@ void CMyApp::Render()
 	// Delete the frame buffer (GL_COLOR_BUFFER_BIT) and the depth (Z) buffer (GL_DEPTH_BUFFER_BIT)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	m_PCVao.Bind();
+	m_Vao.Bind();
 
 	m_program.Use();
 
+	glm::mat4 model = glm::mat4(1);
+	glm::mat4 view = m_camera.GetViewMatrix();
+	glm::mat4 projection = m_camera.GetProj();
+
 	// point cloud
-	glm::mat4 pointCloudWorld = glm::mat4(1);
+
 	glUniform1i(m_program.GetLocation("colOrTexIndex"), e);
 	m_program.SetTexture("texImage", 0, m_bearTexture1);
-	m_program.SetUniform("MVP", m_camera.GetViewProj() * pointCloudWorld);
-	m_program.SetUniform("world", pointCloudWorld);
-	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(m_camera.GetViewProj() * pointCloudWorld)));
-	// glDrawElements(GL_POINTS, 5, GL_UNSIGNED_INT, nullptr);
+	m_program.SetUniform("MVP", m_camera.GetViewProj() * model);
+	m_program.SetUniform("world", model);
+	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(m_camera.GetViewProj() * model)));
 	glDrawArrays(GL_POINTS, 0, vertexNum);
 
 	// point normal visualization
 
-	m_PNVao.Bind();
-
 	m_programPointNormal.Use();
 
-	glm::mat4 pointNormalWorld = glm::mat4(1);
-	glm::mat4 view = m_camera.GetViewMatrix();
-	glm::mat4 projection = m_camera.GetProj();
 	glUniform1i(m_programPointNormal.GetLocation("normal_magnitude"), normal_magnitude);
 	m_programPointNormal.SetUniform("projection", projection);
-	m_programPointNormal.SetUniform("MVP", view * pointNormalWorld);
-	m_programPointNormal.SetUniform("world", pointNormalWorld);
-	m_programPointNormal.SetUniform("worldIT", glm::inverse(glm::transpose(view * pointNormalWorld)));
+	m_programPointNormal.SetUniform("MVP", view * model);
+	m_programPointNormal.SetUniform("world", model);
+	m_programPointNormal.SetUniform("worldIT", glm::inverse(glm::transpose(view * model)));
 	glDrawArrays(GL_POINTS, 0, vertexNum);
 
 	// rectangles
 
-	// m_PNVao.Bind();
-
 	m_programRectangle.Use();
 
-	// glm::mat4 pointNormalWorld = glm::mat4(1);
-	// glm::mat4 view = m_camera.GetViewMatrix();
-	// glm::mat4 projection = m_camera.GetProj();
 	glUniform1i(m_programRectangle.GetLocation("l"), l);
 	glUniform1i(m_programRectangle.GetLocation("w"), w);
 	glUniform1i(m_programRectangle.GetLocation("rectColor"), rectColor);
 	m_programRectangle.SetUniform("projection", projection);
-	m_programRectangle.SetUniform("MVP", view * pointNormalWorld);
-	m_programRectangle.SetUniform("world", pointNormalWorld);
-	m_programRectangle.SetUniform("worldIT", glm::inverse(glm::transpose(view * pointNormalWorld)));
+	m_programRectangle.SetUniform("MVP", view * model);
+	m_programRectangle.SetUniform("world", model);
+	m_programRectangle.SetUniform("worldIT", glm::inverse(glm::transpose(view * model)));
 	glDrawArrays(GL_POINTS, 0, vertexNum);
 
 	//
@@ -420,7 +335,7 @@ void CMyApp::Render()
 	//
 
 	// ImGui Testwindow
-	ImGui::ShowTestWindow();
+	// ImGui::ShowTestWindow();
 
 	// another ImGui window
 	if (ImGui::Begin("ImGui example"))
@@ -430,7 +345,7 @@ void CMyApp::Render()
 			static std::random_device rd;
 			static std::mt19937 mt(rd());
 
-			ImGui::Text("Select Color or Texture of points");
+			ImGui::Text("Select Color or Texture of points:");
 			ImGui::RadioButton("Color 1", &e, 0); ImGui::SameLine();
 			ImGui::RadioButton("Color 2", &e, 1); ImGui::SameLine();
 			ImGui::RadioButton("Texture 1", &e, 2); ImGui::SameLine();
@@ -508,53 +423,52 @@ void CMyApp::ReadPointData()
 	int line_countdown = 5;
 	std::string line;
 
+	glm::vec3 p;
+	glm::vec3 c1;
+	glm::vec3 c2;
+	glm::vec2 t1;
+	glm::vec2 t2;
+	glm::vec3 n;
+
 	while (std::getline(input_file, line))
 	{
-		glm::vec3 p;
-		glm::vec3 c1;
-		glm::vec3 c2;
-		glm::vec2 t1;
-		glm::vec2 t2;
-		glm::vec3 n;
-
-		float x, y, z;
+		float x = 0.0, y = 0.0, z = 0.0;
 
 		std::istringstream in(line);
 		
 		switch (line_countdown)
 		{
 			case 5:
-				// float x, y, z;
 				in >> x >> y >> z;
 				p = glm::vec3(x, y, z);
-				--line_countdown;
+				line_countdown--;
+				break;
 			case 4:
-				// float x, y, z;
 				in >> x >> y >> z;
 				c1 = glm::vec3(x, y, z);
-				--line_countdown;
+				line_countdown--;
+				break;
 			case 3:
-				// float x, y, z;
 				in >> x >> y >> z;
 				c2 = glm::vec3(x, y, z);
-				--line_countdown;
+				line_countdown--;
+				break;
 			case 2:
-				// float x, y;
 				in >> x >> y;
 				t1 = glm::vec2(x, y);
-				--line_countdown;
+				line_countdown--;
+				break;
 			case 1:
-				// float x, y;
 				in >> x >> y;
 				t2 = glm::vec2(x, y);
-				--line_countdown;
+				line_countdown--;
+				break;
 			case 0:
-				// float x, y, z;
 				in >> x >> y >> z;
 				n = glm::vec3(x, y, z);
 				vertices.push_back({ p, c1, c2, t1, t2, n });
 				line_countdown = 5;
-		}
-		
+				break;
+		}		
 	}
 }
