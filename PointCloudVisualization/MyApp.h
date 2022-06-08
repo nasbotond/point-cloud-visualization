@@ -3,6 +3,9 @@
 // C++ includes
 #include <memory>
 #include <array>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 // GLEW
 #include <GL/glew.h>
@@ -44,14 +47,15 @@ public:
 	void MouseUp(SDL_MouseButtonEvent&);
 	void MouseWheel(SDL_MouseWheelEvent&);
 	void Resize(int, int);
-	void ReadPointData();
 
 protected:
 	// init functions for better readability
 	void InitPointCloud();
 	void InitPointNormal();
-	// void InitCube();
 	void InitSkyBox();
+
+	// data parser method
+	void ReadPointData();
 
 	// variables for shaders
 	ProgramObject		m_program;			// shader programs
@@ -69,6 +73,11 @@ protected:
 		glm::vec2 t2;
 		glm::vec3 n;
 	};
+
+	// data reading variables
+	const std::string fileName = "Assets/data.txt";
+	std::vector<Vertex> vertices;
+	int vertexNum;
 
 	// point cloud geometry
 	VertexArrayObject m_PCVao;

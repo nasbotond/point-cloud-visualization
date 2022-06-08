@@ -28,13 +28,17 @@ CMyApp::~CMyApp(void)
 void CMyApp::InitPointCloud()
 {
 	//struct Vertex{ glm::vec3 position; glm::vec3 normal; glm::vec2 texture; };
-	std::vector<Vertex>vertices;
+	//std::vector<Vertex>vertices;
 
-	// test points									 
+	// test points	
+	/*
 	vertices.push_back({ glm::vec3(0.727813, -1.4546, -2.40505), glm::vec3(0.811765, 0.843137, 1), glm::vec3(0.690196, 0.254902, 0.0784314), glm::vec2(0.39972, 0.815711), glm::vec2(0.438485, 0.766398), glm::vec3(-0.0077142, 0.98009, 0.98009) });
 	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
 	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
 	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(255, 255, 255), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
+	*/
+	ReadPointData();
+	vertexNum = vertices.size();
 
 	//std::vector<int> indices(36);
 	//int index = 0;
@@ -85,6 +89,7 @@ void CMyApp::InitPointCloud()
 
 void CMyApp::InitPointNormal()
 {
+	/*
 	//struct Vertex{ glm::vec3 position; glm::vec3 normal; glm::vec2 texture; };
 	std::vector<Vertex>vertices;
 
@@ -93,7 +98,9 @@ void CMyApp::InitPointNormal()
 	vertices.push_back({ glm::vec3(+0.5, -0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
 	vertices.push_back({ glm::vec3(-0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
 	vertices.push_back({ glm::vec3(+0.5, +0.5, +0.5), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec2(0, 0), glm::vec3(0, 0, 1) });
-
+	*/
+	ReadPointData();
+	vertexNum = vertices.size();
 
 	m_PNVertexBuffer.BufferData(vertices);
 
@@ -200,7 +207,7 @@ bool CMyApp::Init()
 	// Clear color will be blueish
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f);
 
-	glEnable(GL_CULL_FACE); // Drop faces looking backwards
+	// glEnable(GL_CULL_FACE); // Drop faces looking backwards
 	glEnable(GL_DEPTH_TEST); // Enable depth test
 
 	//
@@ -331,7 +338,7 @@ void CMyApp::Render()
 	m_program.SetUniform("world", pointCloudWorld);
 	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(m_camera.GetViewProj() * pointCloudWorld)));
 	// glDrawElements(GL_POINTS, 5, GL_UNSIGNED_INT, nullptr);
-	glDrawArrays(GL_POINTS, 0, 5);
+	glDrawArrays(GL_POINTS, 0, vertexNum);
 
 	// point normal visualization
 
@@ -347,7 +354,7 @@ void CMyApp::Render()
 	m_programPointNormal.SetUniform("MVP", view * pointNormalWorld);
 	m_programPointNormal.SetUniform("world", pointNormalWorld);
 	m_programPointNormal.SetUniform("worldIT", glm::inverse(glm::transpose(view * pointNormalWorld)));
-	glDrawArrays(GL_POINTS, 0, 5);
+	glDrawArrays(GL_POINTS, 0, vertexNum);
 
 	// rectangles
 
@@ -365,7 +372,7 @@ void CMyApp::Render()
 	m_programRectangle.SetUniform("MVP", view * pointNormalWorld);
 	m_programRectangle.SetUniform("world", pointNormalWorld);
 	m_programRectangle.SetUniform("worldIT", glm::inverse(glm::transpose(view * pointNormalWorld)));
-	glDrawArrays(GL_POINTS, 0, 5);
+	glDrawArrays(GL_POINTS, 0, vertexNum);
 
 	//
 	// Skybox
@@ -424,7 +431,6 @@ void CMyApp::Render()
 			static std::mt19937 mt(rd());
 
 			ImGui::Text("Select Color or Texture of points");
-			// static int e = 0;
 			ImGui::RadioButton("Color 1", &e, 0); ImGui::SameLine();
 			ImGui::RadioButton("Color 2", &e, 1); ImGui::SameLine();
 			ImGui::RadioButton("Texture 1", &e, 2); ImGui::SameLine();
@@ -498,5 +504,57 @@ void CMyApp::Resize(int _w, int _h)
 
 void CMyApp::ReadPointData()
 {
+	std::ifstream input_file(fileName);
+	int line_countdown = 5;
+	std::string line;
 
+	while (std::getline(input_file, line))
+	{
+		glm::vec3 p;
+		glm::vec3 c1;
+		glm::vec3 c2;
+		glm::vec2 t1;
+		glm::vec2 t2;
+		glm::vec3 n;
+
+		float x, y, z;
+
+		std::istringstream in(line);
+		
+		switch (line_countdown)
+		{
+			case 5:
+				// float x, y, z;
+				in >> x >> y >> z;
+				p = glm::vec3(x, y, z);
+				--line_countdown;
+			case 4:
+				// float x, y, z;
+				in >> x >> y >> z;
+				c1 = glm::vec3(x, y, z);
+				--line_countdown;
+			case 3:
+				// float x, y, z;
+				in >> x >> y >> z;
+				c2 = glm::vec3(x, y, z);
+				--line_countdown;
+			case 2:
+				// float x, y;
+				in >> x >> y;
+				t1 = glm::vec2(x, y);
+				--line_countdown;
+			case 1:
+				// float x, y;
+				in >> x >> y;
+				t2 = glm::vec2(x, y);
+				--line_countdown;
+			case 0:
+				// float x, y, z;
+				in >> x >> y >> z;
+				n = glm::vec3(x, y, z);
+				vertices.push_back({ p, c1, c2, t1, t2, n });
+				line_countdown = 5;
+		}
+		
+	}
 }
