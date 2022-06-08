@@ -13,7 +13,7 @@ in VS_OUT {
 out vec3 fColor;
 out vec2 gs_out_tex;
 
-uniform mat4 projection;
+uniform mat4 MVP;
 
 void main()
 {
@@ -31,16 +31,16 @@ void main()
                                        vec2 (0.0f, 1.0f)); // top left
 
     
-    gl_Position = (projection * (gl_in[0].gl_Position - vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (projection * (gl_in[0].gl_Position + vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 1:bottom-left
+    gl_Position = (MVP * (gl_in[0].gl_Position - vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (MVP * (gl_in[0].gl_Position + vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 1:bottom-left
     gs_out_tex = coordinates[1];
     EmitVertex();
-    gl_Position = (projection * (gl_in[0].gl_Position - vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (projection * (gl_in[0].gl_Position - vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 2:bottom-right
+    gl_Position = (MVP * (gl_in[0].gl_Position - vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (MVP * (gl_in[0].gl_Position - vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 2:bottom-right
     gs_out_tex = coordinates[0];
     EmitVertex();
-    gl_Position = (projection * (gl_in[0].gl_Position + vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (projection * (gl_in[0].gl_Position + vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 3:top-left
+    gl_Position = (MVP * (gl_in[0].gl_Position + vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (MVP * (gl_in[0].gl_Position + vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 3:top-left
     gs_out_tex = coordinates[2];
     EmitVertex();
-    gl_Position = (projection * (gl_in[0].gl_Position + vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (projection * (gl_in[0].gl_Position - vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 4:top-right
+    gl_Position = (MVP * (gl_in[0].gl_Position + vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (MVP * (gl_in[0].gl_Position - vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 4:top-right
     gs_out_tex = coordinates[3];
     EmitVertex();
 

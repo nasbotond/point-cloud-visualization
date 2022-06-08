@@ -26,7 +26,7 @@ uniform int rectColor;
 
 void main()
 {
-	gl_Position = MVP * vec4( vs_in_pos, 1 );
+	gl_Position = vec4( vs_in_pos, 1 );
 
 	vs_out.normal = normalize(vec3(worldIT * vec4(vs_in_norm, 0)));
 	vs_out.l = l;

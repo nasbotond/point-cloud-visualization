@@ -1,9 +1,6 @@
 #version 330 core
 
 // per-fragment attributes coming from the pipeline
-in vec3 vs_out_pos;
-in vec3 vs_out_modelpos;
-in vec3 vs_out_norm;
 in vec2 vs_out_tex;
 in vec3 vs_out_col;
 in float vs_out_texOrCol;

@@ -8,11 +8,6 @@ in vec2 vs_in_t1;
 in vec2 vs_in_t2;
 in vec3 vs_in_norm;
 
-// variables going forward through the pipeline
-// out vec3 vs_out_pos;
-// out vec3 vs_out_modelpos;
-// out vec3 vs_out_norm;
-
 out VS_OUT {
     vec3 normal;
 	int magnitude;
@@ -28,9 +23,6 @@ void main()
 {
 	gl_Position = MVP * vec4( vs_in_pos, 1 );
 
-	// vs_out_modelpos = vs_in_pos;
-	// vs_out_pos = (world * vec4(vs_in_pos, 1)).xyz;
-	// vs_out_norm = (worldIT * vec4(vs_in_norm, 0)).xyz;
 	vs_out.normal = normalize(vec3(worldIT * vec4(vs_in_norm, 0)));
 	vs_out.magnitude = normal_magnitude;
 

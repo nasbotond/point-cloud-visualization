@@ -253,16 +253,14 @@ void CMyApp::Render()
 	m_program.Use();
 
 	glm::mat4 model = glm::mat4(1);
-	glm::mat4 view = m_camera.GetViewMatrix();
-	glm::mat4 projection = m_camera.GetProj();
+	// glm::mat4 view = m_camera.GetViewMatrix();
+	// glm::mat4 projection = m_camera.GetProj();
 
 	// point cloud
 
 	glUniform1i(m_program.GetLocation("colOrTexIndex"), e);
 	m_program.SetTexture("texImage", 0, m_bearTexture1);
 	m_program.SetUniform("MVP", m_camera.GetViewProj() * model);
-	m_program.SetUniform("world", model);
-	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(m_camera.GetViewProj() * model)));
 	glDrawArrays(GL_POINTS, 0, vertexNum);
 
 	// point normal visualization
@@ -270,10 +268,9 @@ void CMyApp::Render()
 	m_programPointNormal.Use();
 
 	glUniform1i(m_programPointNormal.GetLocation("normal_magnitude"), normal_magnitude);
-	m_programPointNormal.SetUniform("projection", projection);
-	m_programPointNormal.SetUniform("MVP", view * model);
+	m_programPointNormal.SetUniform("MVP", m_camera.GetViewProj() * model);
 	m_programPointNormal.SetUniform("world", model);
-	m_programPointNormal.SetUniform("worldIT", glm::inverse(view * model));
+	m_programPointNormal.SetUniform("worldIT", glm::inverse(model));
 	glDrawArrays(GL_POINTS, 0, vertexNum);
 
 	// rectangles
@@ -284,10 +281,9 @@ void CMyApp::Render()
 	glUniform1i(m_programRectangle.GetLocation("l"), l);
 	glUniform1i(m_programRectangle.GetLocation("w"), w);
 	glUniform1i(m_programRectangle.GetLocation("rectColor"), rectColor);
-	m_programRectangle.SetUniform("projection", projection);
-	m_programRectangle.SetUniform("MVP", view * model);
+	m_programRectangle.SetUniform("MVP", m_camera.GetViewProj() * model);
 	m_programRectangle.SetUniform("world", model);
-	m_programRectangle.SetUniform("worldIT", glm::inverse(glm::transpose(view * model)));
+	m_programRectangle.SetUniform("worldIT", glm::inverse(glm::transpose(model)));
 	glDrawArrays(GL_POINTS, 0, vertexNum);
 
 	//
