@@ -273,13 +273,14 @@ void CMyApp::Render()
 	m_programPointNormal.SetUniform("projection", projection);
 	m_programPointNormal.SetUniform("MVP", view * model);
 	m_programPointNormal.SetUniform("world", model);
-	m_programPointNormal.SetUniform("worldIT", glm::inverse(glm::transpose(view * model)));
+	m_programPointNormal.SetUniform("worldIT", glm::inverse(view * model));
 	glDrawArrays(GL_POINTS, 0, vertexNum);
 
 	// rectangles
 
 	m_programRectangle.Use();
 
+	m_programRectangle.SetTexture("texImage", 0, m_bearTexture1);
 	glUniform1i(m_programRectangle.GetLocation("l"), l);
 	glUniform1i(m_programRectangle.GetLocation("w"), w);
 	glUniform1i(m_programRectangle.GetLocation("rectColor"), rectColor);

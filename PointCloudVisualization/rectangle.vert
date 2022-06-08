@@ -13,6 +13,7 @@ out VS_OUT {
 	int l;
 	int w;
 	vec3 color;
+	vec2 tex;
 } vs_out;
 
 // external parameters of the shader
@@ -39,4 +40,6 @@ void main()
 	{
 		vs_out.color = vs_in_c2;
 	}
+
+	vs_out.tex = vs_in_t1;
 }
