@@ -102,6 +102,12 @@ protected:
 	int normal_magnitude = 1;
 	int l = 1;
 	int w = 1;
-	int rectColor = 1;
+	int rectColOrTex = 1;
+
+	// imgui variables
+	int useBearTexture1 = 0;
+	bool showPoints = false;
+	bool showNormals = false;
+	bool showRectangles = false;
 };
 

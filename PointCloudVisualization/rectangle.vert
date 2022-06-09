@@ -14,6 +14,7 @@ out VS_OUT {
 	int w;
 	vec3 color;
 	vec2 tex;
+	float texOrCol; // 0 -> color, 1 -> texture
 } vs_out;
 
 // external parameters of the shader
@@ -22,7 +23,7 @@ uniform mat4 world;
 uniform mat4 worldIT;
 uniform int l; // length
 uniform int w; // width
-uniform int rectColor;
+uniform int rectColOrTex;
 uniform vec3 direction;
 
 void main()
@@ -40,14 +41,30 @@ void main()
 	vs_out.l = l;
 	vs_out.w = w;
 
-	if(rectColor == 1)
+	if(rectColOrTex == 0)
 	{
 		vs_out.color = vs_in_c1;
+		vs_out.tex = vs_in_t1;
+		vs_out.texOrCol = 0.0;
+	}
+	else if(rectColOrTex == 1)
+	{
+		vs_out.color = vs_in_c2;
+		vs_out.tex = vs_in_t1;
+		vs_out.texOrCol = 0.0;
+	}
+	else if(rectColOrTex == 2)
+	{
+		vs_out.color = vs_in_c2;
+		vs_out.tex = vs_in_t1;
+		vs_out.texOrCol = 1.0;
 	}
 	else
 	{
 		vs_out.color = vs_in_c2;
+		vs_out.tex = vs_in_t2;
+		vs_out.texOrCol = 1.0;
 	}
 
-	vs_out.tex = vs_in_t1;
+	
 }

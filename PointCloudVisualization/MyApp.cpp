@@ -263,7 +263,10 @@ void CMyApp::Render()
 	glUniform1i(m_program.GetLocation("colOrTexIndex"), e);
 	m_program.SetTexture("texImage", 0, m_bearTexture1);
 	m_program.SetUniform("MVP", m_camera.GetViewProj() * model);
-	glDrawArrays(GL_POINTS, 0, vertexNum);
+	if (showPoints) 
+	{
+		glDrawArrays(GL_POINTS, 0, vertexNum);
+	}
 
 	// point normal visualization
 
@@ -274,21 +277,34 @@ void CMyApp::Render()
 	m_programPointNormal.SetUniform("MVP", m_camera.GetViewProj() * model);
 	m_programPointNormal.SetUniform("world", model);
 	m_programPointNormal.SetUniform("worldIT", glm::inverse(model));
-	glDrawArrays(GL_POINTS, 0, vertexNum);
+	if (showNormals)
+	{
+		glDrawArrays(GL_POINTS, 0, vertexNum);
+	}
 
 	// rectangles
 
 	m_programRectangle.Use();
 
-	m_programRectangle.SetTexture("texImage", 0, m_bearTexture1);
+	if (useBearTexture1 == 0)
+	{
+		m_programRectangle.SetTexture("texImage", 0, m_bearTexture1);
+	}
+	else
+	{
+		m_programRectangle.SetTexture("texImage", 0, m_bearTexture2);
+	}
 	glUniform1i(m_programRectangle.GetLocation("l"), l);
 	glUniform1i(m_programRectangle.GetLocation("w"), w);
-	glUniform1i(m_programRectangle.GetLocation("rectColor"), rectColor);
+	glUniform1i(m_programRectangle.GetLocation("rectColOrTex"), rectColOrTex);
 	m_programRectangle.SetUniform("direction", direction);
 	m_programRectangle.SetUniform("MVP", m_camera.GetViewProj() * model);
 	m_programRectangle.SetUniform("world", model);
 	m_programRectangle.SetUniform("worldIT", glm::inverse(glm::transpose(model)));
-	glDrawArrays(GL_POINTS, 0, vertexNum);
+	if (showRectangles)
+	{
+		glDrawArrays(GL_POINTS, 0, vertexNum);
+	}
 
 	//
 	// Skybox
@@ -336,32 +352,15 @@ void CMyApp::Render()
 	//
 
 	// ImGui Testwindow
-	// ImGui::ShowTestWindow();
+	ImGui::ShowTestWindow();
 
 	// another ImGui window
 	if (ImGui::Begin("ImGui example"))
 	{
-		if (ImGui::CollapsingHeader("Options"))
+		if(ImGui::CollapsingHeader("Refresh Options"))
 		{
 			static std::random_device rd;
 			static std::mt19937 mt(rd());
-
-			ImGui::Text("Select Color or Texture of points:");
-			ImGui::RadioButton("Color 1", &e, 0); ImGui::SameLine();
-			ImGui::RadioButton("Color 2", &e, 1); ImGui::SameLine();
-			ImGui::RadioButton("Texture 1", &e, 2); ImGui::SameLine();
-			ImGui::RadioButton("Texture 2", &e, 3);
-
-			ImGui::Text("Select length of normal vector (increments of 0.2):");
-			ImGui::SliderInt("magnitude", &normal_magnitude, 0, 15);
-
-			ImGui::Text("Select size of rectangle (increments of 0.1):");
-			ImGui::SliderInt("width", &w, 0, 15);
-			ImGui::SliderInt("length", &l, 0, 15);
-
-			ImGui::Text("Select Color of Rectangles:");
-			ImGui::RadioButton("Rect. Color 1", &rectColor, 1); ImGui::SameLine();
-			ImGui::RadioButton("Rect. Color 2", &rectColor, 2);
 
 			static float refresh_time = 0.1f;
 			static float timer = 0;
@@ -369,7 +368,7 @@ void CMyApp::Render()
 			static float fps = 0;
 
 			timer += static_cast<float>(m_delta_time);
-			++frameCount; 
+			++frameCount;
 			if (timer > refresh_time) {
 				fps = frameCount / timer;
 				timer = 0;
@@ -378,6 +377,41 @@ void CMyApp::Render()
 			ImGui::Text("FPS: %d", static_cast<int>(fps));
 
 			ImGui::SliderFloat("Refresh time", &refresh_time, 0.01f, 1.0f);
+		}
+		if (ImGui::CollapsingHeader("Point Cloud Options"))
+		{
+			ImGui::Checkbox("Render Points", &showPoints);
+
+			ImGui::Text("Select color or texture of points:");
+			ImGui::RadioButton("Color 1", &e, 0); ImGui::SameLine();
+			ImGui::RadioButton("Color 2", &e, 1); ImGui::SameLine();
+			ImGui::RadioButton("Texture 1", &e, 2); ImGui::SameLine();
+			ImGui::RadioButton("Texture 2", &e, 3);		
+		}
+		if (ImGui::CollapsingHeader("Point Normal Options"))
+		{
+			ImGui::Checkbox("Render Normals", &showNormals);
+
+			ImGui::Text("Select length of normal vector (increments of 0.01):");
+			ImGui::SliderInt("magnitude", &normal_magnitude, 0, 20);
+		}
+		if (ImGui::CollapsingHeader("Rectangle Options"))
+		{
+			ImGui::Checkbox("Render Rectangles", &showRectangles);
+
+			ImGui::Text("Select size of rectangle (increments of 0.01):");
+			ImGui::SliderInt("width", &w, 0, 15);
+			ImGui::SliderInt("length", &l, 0, 15);
+
+			ImGui::Text("Select texture:");
+			ImGui::RadioButton("Bear 1", &useBearTexture1, 0); ImGui::SameLine();
+			ImGui::RadioButton("Bear 2", &useBearTexture1, 1);
+
+			ImGui::Text("Select Color/Texture of Rectangles:");
+			ImGui::RadioButton("Rect. Color 1", &rectColOrTex, 0); ImGui::SameLine();
+			ImGui::RadioButton("Rect. Color 2", &rectColOrTex, 1);
+			ImGui::RadioButton("Rect. Tex 1", &rectColOrTex, 2); ImGui::SameLine();
+			ImGui::RadioButton("Rect. Tex 2", &rectColOrTex, 3);
 		}
 	} // window
 	ImGui::End();
