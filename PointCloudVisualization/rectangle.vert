@@ -23,12 +23,20 @@ uniform mat4 worldIT;
 uniform int l; // length
 uniform int w; // width
 uniform int rectColor;
+uniform vec3 direction;
 
 void main()
 {
+	float dir = dot(vs_in_norm, direction-vs_in_pos);
 	gl_Position = vec4( vs_in_pos, 1 );
 
 	vs_out.normal = normalize(vec3(worldIT * vec4(vs_in_norm, 0)));
+
+	if(dir < 0)
+	{
+		vs_out.normal = normalize(vec3(worldIT * vec4(-1*vs_in_norm, 0)));
+	}
+
 	vs_out.l = l;
 	vs_out.w = w;
 

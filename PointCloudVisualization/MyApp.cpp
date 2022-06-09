@@ -255,6 +255,8 @@ void CMyApp::Render()
 	glm::mat4 model = glm::mat4(1);
 	// glm::mat4 view = m_camera.GetViewMatrix();
 	// glm::mat4 projection = m_camera.GetProj();
+	// glm::vec3 direction = glm::vec3(view[2]);
+	glm::vec3 direction = glm::vec3(5); // original position of camera
 
 	// point cloud
 
@@ -268,6 +270,7 @@ void CMyApp::Render()
 	m_programPointNormal.Use();
 
 	glUniform1i(m_programPointNormal.GetLocation("normal_magnitude"), normal_magnitude);
+	m_programRectangle.SetUniform("direction", direction);
 	m_programPointNormal.SetUniform("MVP", m_camera.GetViewProj() * model);
 	m_programPointNormal.SetUniform("world", model);
 	m_programPointNormal.SetUniform("worldIT", glm::inverse(model));
@@ -281,6 +284,7 @@ void CMyApp::Render()
 	glUniform1i(m_programRectangle.GetLocation("l"), l);
 	glUniform1i(m_programRectangle.GetLocation("w"), w);
 	glUniform1i(m_programRectangle.GetLocation("rectColor"), rectColor);
+	m_programRectangle.SetUniform("direction", direction);
 	m_programRectangle.SetUniform("MVP", m_camera.GetViewProj() * model);
 	m_programRectangle.SetUniform("world", model);
 	m_programRectangle.SetUniform("worldIT", glm::inverse(glm::transpose(model)));
