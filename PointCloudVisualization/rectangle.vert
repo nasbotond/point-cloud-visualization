@@ -56,13 +56,13 @@ void main()
 	else if(rectColOrTex == 2)
 	{
 		vs_out.color = vs_in_c2;
-		vs_out.tex = vs_in_t1;
+		vs_out.tex = (1.0-vs_in_t1);
 		vs_out.texOrCol = 1.0;
 	}
 	else
 	{
 		vs_out.color = vs_in_c2;
-		vs_out.tex = vs_in_t2;
+		vs_out.tex = (1.0-vs_in_t2);
 		vs_out.texOrCol = 1.0;
 	}
 

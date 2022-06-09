@@ -21,8 +21,6 @@ void main()
 {
 	gl_Position = MVP * vec4( vs_in_pos, 1 );
 
-	// vs_out_tex = vs_in_t1;
-
 	switch (colOrTexIndex) 
 	{
 		case 0:
@@ -37,12 +35,12 @@ void main()
 			break;
 		case 2:
 			vs_out_col = vs_in_c1;
-			vs_out_tex = vs_in_t1;
+			vs_out_tex = (1.0-vs_in_t1);
 			vs_out_texOrCol = 1.0;
 			break;
 		case 3:
 			vs_out_col = vs_in_c1;
-			vs_out_tex = vs_in_t2;
+			vs_out_tex = (1.0-vs_in_t2);
 			vs_out_texOrCol = 1.0;
 			break;
 	}

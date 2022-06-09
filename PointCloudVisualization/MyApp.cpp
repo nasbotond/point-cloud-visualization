@@ -16,7 +16,7 @@
 
 CMyApp::CMyApp(void)
 {
-	m_camera.SetView(glm::vec3(5, 5, 5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	m_camera.SetView(glm::vec3(.2, -0.5, 5), glm::vec3(0.8, 0.5, -2), glm::vec3(0, 1, 0));
 }
 
 
@@ -256,7 +256,7 @@ void CMyApp::Render()
 	// glm::mat4 view = m_camera.GetViewMatrix();
 	// glm::mat4 projection = m_camera.GetProj();
 	// glm::vec3 direction = glm::vec3(view[2]);
-	glm::vec3 direction = glm::vec3(5); // original position of camera
+	glm::vec3 direction = glm::vec3(.2, -0.5, 5); // original position of camera
 
 	// point cloud
 
@@ -326,6 +326,7 @@ void CMyApp::Render()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_skyboxTexture);
 	glUniform1i(m_programSkybox.GetLocation("skyboxTexture"), 0);
+	glUniform1i(m_programSkybox.GetLocation("skyboxBackground"), skyboxBackground);
 
 	// The last 3 rows <=> m_programSkybox.SetCubeTexture("skyboxTexture", 0, m_skyboxTexture);
 
@@ -342,7 +343,7 @@ void CMyApp::Render()
 	m_programAxes.Use();
 	
 	m_programAxes.SetUniform("MVP", m_camera.GetViewProj());
-	glDrawArrays(GL_LINES, 0, 6);
+	// glDrawArrays(GL_LINES, 0, 6);
 
 	m_programAxes.Unuse();
 	glEnable(GL_DEPTH_TEST);
@@ -352,7 +353,7 @@ void CMyApp::Render()
 	//
 
 	// ImGui Testwindow
-	ImGui::ShowTestWindow();
+	// ImGui::ShowTestWindow();
 
 	// another ImGui window
 	if (ImGui::Begin("ImGui example"))
@@ -377,6 +378,12 @@ void CMyApp::Render()
 			ImGui::Text("FPS: %d", static_cast<int>(fps));
 
 			ImGui::SliderFloat("Refresh time", &refresh_time, 0.01f, 1.0f);
+		}
+		if (ImGui::CollapsingHeader("Skybox Options"))
+		{
+			ImGui::Text("Select skybox background:");
+			ImGui::RadioButton("Color gradient", &skyboxBackground, 0); ImGui::SameLine();
+			ImGui::RadioButton("Sky texture", &skyboxBackground, 1);
 		}
 		if (ImGui::CollapsingHeader("Point Cloud Options"))
 		{

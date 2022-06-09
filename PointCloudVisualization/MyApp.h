@@ -106,6 +106,7 @@ protected:
 
 	// imgui variables
 	int useBearTexture1 = 0;
+	int skyboxBackground = 0;
 	bool showPoints = false;
 	bool showNormals = false;
 	bool showRectangles = false;
