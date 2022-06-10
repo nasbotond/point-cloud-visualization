@@ -273,10 +273,11 @@ void CMyApp::Render()
 	m_programPointNormal.Use();
 
 	glUniform1i(m_programPointNormal.GetLocation("normal_magnitude"), normal_magnitude);
-	m_programRectangle.SetUniform("direction", direction);
+	m_programPointNormal.SetUniform("direction", direction);
 	m_programPointNormal.SetUniform("MVP", m_camera.GetViewProj() * model);
 	m_programPointNormal.SetUniform("world", model);
-	m_programPointNormal.SetUniform("worldIT", glm::inverse(model));
+	// m_programPointNormal.SetUniform("projection", projection);
+	m_programPointNormal.SetUniform("worldIT", glm::inverse(glm::transpose(model)));
 	if (showNormals)
 	{
 		glDrawArrays(GL_POINTS, 0, vertexNum);

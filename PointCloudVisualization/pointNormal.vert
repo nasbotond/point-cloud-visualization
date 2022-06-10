@@ -35,5 +35,4 @@ void main()
 	}
 
 	vs_out.magnitude = normal_magnitude;
-
 }

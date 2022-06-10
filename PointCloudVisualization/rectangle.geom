@@ -30,19 +30,19 @@ void main()
     
     gl_Position = (MVP * (gl_in[0].gl_Position - vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (MVP * (gl_in[0].gl_Position + vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 1:bottom-right
     // gs_out_tex = gs_in[0].tex + vec2(gs_in[0].w * 0.01, -gs_in[0].l * 0.01);
-    gs_out_tex = gs_in[0].tex - vec2(gs_in[0].w * 0.01, gs_in[0].l * 0.01);
+    gs_out_tex = gs_in[0].tex - vec2(gs_in[0].w * 0.001, gs_in[0].l * 0.001);
     EmitVertex();
     gl_Position = (MVP * (gl_in[0].gl_Position - vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (MVP * (gl_in[0].gl_Position - vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 2:bottom-left
     // gs_out_tex = gs_in[0].tex - vec2(gs_in[0].w * 0.01, gs_in[0].l * 0.01);
-    gs_out_tex = gs_in[0].tex + vec2(gs_in[0].w * 0.01, -gs_in[0].l * 0.01);
+    gs_out_tex = gs_in[0].tex + vec2(gs_in[0].w * 0.001, -gs_in[0].l * 0.001);
     EmitVertex();
     gl_Position = (MVP * (gl_in[0].gl_Position + vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (MVP * (gl_in[0].gl_Position + vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 3:top-right
     // gs_out_tex = gs_in[0].tex + vec2(gs_in[0].w * 0.01, gs_in[0].l * 0.01);
-    gs_out_tex = gs_in[0].tex + vec2(-gs_in[0].w * 0.01, gs_in[0].l * 0.01);
+    gs_out_tex = gs_in[0].tex + vec2(-gs_in[0].w * 0.001, gs_in[0].l * 0.001);
     EmitVertex();
     gl_Position = (MVP * (gl_in[0].gl_Position + vec4(v2, 0.0) * gs_in[0].l * 0.01)) + (MVP * (gl_in[0].gl_Position - vec4(v3, 0.0) * gs_in[0].w * 0.01));    // 4:top-left
     // gs_out_tex = gs_in[0].tex + vec2(-gs_in[0].w * 0.01, gs_in[0].l * 0.01);
-    gs_out_tex = gs_in[0].tex + vec2(gs_in[0].w * 0.01, gs_in[0].l * 0.01);
+    gs_out_tex = gs_in[0].tex + vec2(gs_in[0].w * 0.001, gs_in[0].l * 0.001);
     EmitVertex();
 
     EndPrimitive();
